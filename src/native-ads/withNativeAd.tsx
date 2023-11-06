@@ -37,6 +37,7 @@ interface INativeAdPropsBase extends ViewProps {
   validAdTypes?: ('banner' | 'native' | 'template')[];
   customClickTemplateIds?: string[];
   targeting?: IAdManagerTargeting;
+  adTheme?: 'light' | 'dark';
 }
 
 interface INativeAdNativeProps extends INativeAdPropsBase {
@@ -276,6 +277,7 @@ export default (Component: JSXElementConstructor<any>) =>
           targeting={this.props.targeting}
           customClickTemplateIds={this.props.customClickTemplateIds}
           adsManager={adsManager.toJSON()}
+          adTheme={this.props.adTheme}
         >
           {this.renderAdComponent(rest)}
         </NativeAdView>

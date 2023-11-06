@@ -36,6 +36,7 @@ public class RNAdManagerNativeViewManager extends ViewGroupManager<NativeAdViewC
     public static final String PROP_VALID_AD_TYPES = "validAdTypes";
     public static final String PROP_TARGETING = "targeting";
     public static final String PROP_CORRELATOR = "correlator";
+    public static final String PROP_AD_THEME = "adTheme";
 
     public static final String EVENT_AD_LOADED = "onAdLoaded";
     public static final String EVENT_SIZE_CHANGE = "onSizeChange";
@@ -125,6 +126,11 @@ public class RNAdManagerNativeViewManager extends ViewGroupManager<NativeAdViewC
     public void setPropAdSize(final NativeAdViewContainer view, final String sizeString) {
         AdSize adSize = AdSizeUtil.getAdSizeFromString(sizeString);
         view.setAdSize(adSize);
+    }
+
+    @ReactProp(name = PROP_AD_THEME)
+    public void setPropAdTheme(final NativeAdViewContainer view, final String adTheme) {
+        view.setAdTheme(adTheme);
     }
 
     @ReactProp(name = PROP_VALID_AD_SIZES)
