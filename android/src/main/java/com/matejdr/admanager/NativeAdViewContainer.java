@@ -547,7 +547,7 @@ public class NativeAdViewContainer extends ReactViewGroup implements AppEventLis
         drawable.setCornerRadius(20);
         // drawable.setStroke(1, Color.BLACK);
         ctaView.setBackground(drawable);
-        ctaView.setPadding(0, 22, 0, 10);
+        ctaView.setPadding(0, 30, 0, 10);
 
         TextView textView = new TextView(context);
         textView.setText("Ad");
