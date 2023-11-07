@@ -370,8 +370,15 @@ public class NativeAdViewContainer extends ReactViewGroup implements AppEventLis
 
             if (this.adUnitID.indexOf("community_feed") < 0) {
                 bannerView(viewWidth, viewHeight);
+
+                frame.setBackgroundColor(0xFFF8F9FA);
             } else {
                 feedView(viewWidth, viewHeight);
+
+                int backgroundColor =
+                    this.adTheme.equals("light") ?
+                    0xFFF8F9FA : 0xFF212529;
+                frame.setBackgroundColor(backgroundColor);
             }
 
             nativeAdView.layout(left, top, left + viewWidth, top + viewHeight);
@@ -465,8 +472,6 @@ public class NativeAdViewContainer extends ReactViewGroup implements AppEventLis
         int top = 0;
         int textColor = this.adTheme.equals("light") ? 0xFF000000 : 0xFFFFFFFF;
 
-        Log.i("AdManager", "render isLight?: " + this.adTheme.equals("light"));
-        Log.i("AdManager", "render textcolor: " + textColor);
         NativeAd.Image icon = _nativeAd.getIcon();
         if (icon != null) {
             ImageView iconView = new ImageView(context);
