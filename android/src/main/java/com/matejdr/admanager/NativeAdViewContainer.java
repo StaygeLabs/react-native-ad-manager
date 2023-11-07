@@ -86,6 +86,7 @@ public class NativeAdViewContainer extends ReactViewGroup implements AppEventLis
     Location location;
     String correlator;
     List<String> customClickTemplateIds;
+    String adTheme = "dark";
 
     NativeAd _nativeAd;
 
@@ -369,8 +370,15 @@ public class NativeAdViewContainer extends ReactViewGroup implements AppEventLis
 
             if (this.adUnitID.indexOf("community_feed") < 0) {
                 bannerView(viewWidth, viewHeight);
+
+                frame.setBackgroundColor(0xFFF8F9FA);
             } else {
                 feedView(viewWidth, viewHeight);
+
+                int backgroundColor =
+                    this.adTheme.equals("light") ?
+                    0xFFF8F9FA : 0xFF212529;
+                frame.setBackgroundColor(backgroundColor);
             }
 
             nativeAdView.layout(left, top, left + viewWidth, top + viewHeight);
@@ -431,7 +439,7 @@ public class NativeAdViewContainer extends ReactViewGroup implements AppEventLis
             iconView.setPadding(4, 6, 4, 7);
             iconView.layout(iconLeft, iconTop, iconLeft + iconWidth, iconTop + iconHeight);
             nativeAdView.addView(iconView);
-            nativeAdView.setImageView(iconView);
+            nativeAdView.setIconView(iconView);
 
             Glide.with(context)
                 .load(icon.getUri())
@@ -462,15 +470,98 @@ public class NativeAdViewContainer extends ReactViewGroup implements AppEventLis
     private void feedView(int viewWidth, int viewHeight) {
         int left = 0;
         int top = 0;
+        int textColor = this.adTheme.equals("light") ? 0xFF000000 : 0xFFFFFFFF;
 
-        View tmpView = new View(context);
-        tmpView.layout(left, top, left + viewWidth, top + viewHeight);
-        nativeAdView.addView(tmpView);
+        NativeAd.Image icon = _nativeAd.getIcon();
+        if (icon != null) {
+            ImageView iconView = new ImageView(context);
+            int iconLeft = left+20;
+            int iconTop = 20;
+            int iconWidth = 80;
+            int iconHeight = 80;
+            iconView.layout(iconLeft, iconTop, iconLeft + iconWidth, iconTop + iconHeight);
+            nativeAdView.addView(iconView);
+            nativeAdView.setIconView(iconView);
 
-        tmpView.getLayoutParams().width = viewWidth;
-        tmpView.getLayoutParams().height = viewHeight;
+            Glide.with(context)
+                .load(icon.getUri())
+                .into(iconView);
+        }
 
-        nativeAdView.setCallToActionView(tmpView);
+        TextView advertiserView = new TextView(context);
+        advertiserView.setText(_nativeAd.getAdvertiser());
+        advertiserView.setTextColor(textColor);
+        advertiserView.setTextSize(18);
+        advertiserView.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
+        advertiserView.setPadding(20, 0, 0, 0);
+        advertiserView.layout(100, 20, viewWidth - 100, 100);
+        nativeAdView.addView(advertiserView);
+        nativeAdView.setAdvertiserView(advertiserView);
+
+        TextView titleView = new TextView(context);
+        titleView.setText(_nativeAd.getHeadline());
+        titleView.setTextSize(16);
+        titleView.setTextColor(textColor);
+        titleView.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
+        titleView.setGravity(Gravity.LEFT);
+        titleView.setPadding(20, 0, 20, 0);
+        titleView.layout(left, 115, viewWidth, 235);
+        nativeAdView.addView(titleView);
+        nativeAdView.setHeadlineView(titleView);
+
+        TextView bodyView = new TextView(context);
+        bodyView.setText(_nativeAd.getBody());
+        bodyView.setTextSize(14);
+        bodyView.setTextColor(textColor);
+        bodyView.setGravity(Gravity.LEFT);
+        bodyView.setPadding(20, 0, 20, 0);
+        bodyView.layout(left, 235, viewWidth, 360);
+        nativeAdView.addView(bodyView);
+        nativeAdView.setBodyView(bodyView);
+
+        if (_nativeAd.getImages().size() != 0) {
+            ImageView imageView = new ImageView(context);
+            NativeAd.Image image = _nativeAd.getImages().get(0);
+            imageView.layout(0, 360, viewWidth, top + viewHeight - 210);
+            imageView.setBackgroundColor(0xFFFFFFFF);
+
+            nativeAdView.addView(imageView);
+            nativeAdView.setImageView(imageView);
+
+            Glide.with(context)
+                .load(image.getUri())
+                .into(imageView);
+        }
+
+        TextView ctaView = new TextView(context);
+        String cta = _nativeAd.getCallToAction();
+        if (cta == null || cta.equals("")) {
+            cta = "Learn More";
+        }
+        ctaView.setText(cta);
+        ctaView.setTextSize(18);
+        ctaView.setTextColor(0xFFFFFFFF);
+        ctaView.layout(left + 50, top + viewHeight - 175, left + viewWidth - 50, top + viewHeight - 35);
+        ctaView.setGravity(Gravity.CENTER);
+        nativeAdView.addView(ctaView);
+        nativeAdView.setCallToActionView(ctaView);
+
+        GradientDrawable drawable = new GradientDrawable();
+        drawable.setShape(GradientDrawable.RECTANGLE);
+        drawable.setColor(0xFFFF477F);
+        drawable.setCornerRadius(20);
+        // drawable.setStroke(1, Color.BLACK);
+        ctaView.setBackground(drawable);
+        ctaView.setPadding(0, 30, 0, 10);
+
+        TextView textView = new TextView(context);
+        textView.setText("Ad");
+        textView.setTextSize(11);
+        textView.setTextColor(0xFF868E96);
+        textView.setGravity(Gravity.CENTER);
+        textView.layout(0, top + viewHeight - 246, 50, top + viewHeight - 210);
+        nativeAdView.addView(textView);
+        textView.setBackgroundColor(0xFFFFFFFF);
     }
 
     @Override
@@ -704,6 +795,12 @@ public class NativeAdViewContainer extends ReactViewGroup implements AppEventLis
 
     public void setAdSize(AdSize adSize) {
         this.adSize = adSize;
+    }
+
+    public void setAdTheme(String theme) {
+        if (theme != null) {
+            this.adTheme = theme;
+        }
     }
 
     public void setValidAdSizes(AdSize[] adSizes) {
