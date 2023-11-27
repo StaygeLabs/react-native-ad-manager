@@ -5,6 +5,7 @@ import android.graphics.drawable.GradientDrawable;
 import android.graphics.Typeface;
 import android.location.Location;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -392,6 +393,8 @@ public class NativeAdViewContainer extends ReactViewGroup implements AppEventLis
 
         TextView advertiserView = new TextView(context);
         advertiserView.setText(_nativeAd.getAdvertiser());
+        advertiserView.setMaxLines(1);
+        advertiserView.setEllipsize(TextUtils.TruncateAt.END);
         advertiserView.setTextColor(0xff000000);
         advertiserView.setTextSize(10.5f);
         advertiserView.setPadding(16, 0, 0, 0);
@@ -401,6 +404,8 @@ public class NativeAdViewContainer extends ReactViewGroup implements AppEventLis
 
         TextView titleView = new TextView(context);
         titleView.setText(_nativeAd.getHeadline());
+        titleView.setMaxLines(2);
+        titleView.setEllipsize(TextUtils.TruncateAt.END);
         titleView.setTextColor(0xff000000);
         titleView.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
         titleView.setGravity(Gravity.LEFT);
@@ -490,6 +495,8 @@ public class NativeAdViewContainer extends ReactViewGroup implements AppEventLis
 
         TextView advertiserView = new TextView(context);
         advertiserView.setText(_nativeAd.getAdvertiser());
+        advertiserView.setMaxLines(1);
+        advertiserView.setEllipsize(TextUtils.TruncateAt.END);
         advertiserView.setTextColor(textColor);
         advertiserView.setTextSize(18);
         advertiserView.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
@@ -500,6 +507,8 @@ public class NativeAdViewContainer extends ReactViewGroup implements AppEventLis
 
         TextView titleView = new TextView(context);
         titleView.setText(_nativeAd.getHeadline());
+        titleView.setMaxLines(2);
+        titleView.setEllipsize(TextUtils.TruncateAt.END);
         titleView.setTextSize(16);
         titleView.setTextColor(textColor);
         titleView.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
