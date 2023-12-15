@@ -744,11 +744,15 @@ public class NativeAdViewContainer extends ReactViewGroup implements AppEventLis
             ad.putString("icon", null);
         } else {
             WritableMap icon = Arguments.createMap();
-            icon.putString("uri", nativeAd.getIcon().getUri().toString());
-            icon.putInt("width", nativeAd.getIcon().getDrawable().getIntrinsicWidth());
-            icon.putInt("height", nativeAd.getIcon().getDrawable().getIntrinsicHeight());
-            icon.putDouble("scale", nativeAd.getIcon().getScale());
-            ad.putMap("icon", icon);
+            try {
+                icon.putString("uri", nativeAd.getIcon().getUri().toString());
+                icon.putInt("width", nativeAd.getIcon().getDrawable().getIntrinsicWidth());
+                icon.putInt("height", nativeAd.getIcon().getDrawable().getIntrinsicHeight());
+                icon.putDouble("scale", nativeAd.getIcon().getScale());
+                ad.putMap("icon", icon);
+            } catch (Exception e) {
+                Log.e("NativeAd", e.toString());
+            }
         }
 
         if (nativeAd.getImages().size() == 0) {
