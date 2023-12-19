@@ -349,7 +349,7 @@ public class NativeAdViewContainer extends ReactViewGroup implements AppEventLis
             if (viewHeight <= 0) {
                 viewHeight = 1500;
             }
-            Log.i("AdManager", "w:"+viewWidth+" h:"+viewHeight);
+            Log.i("NativeAd", "w:"+viewWidth+" h:"+viewHeight);
 
             View frame = new View(context);
             frame.layout(0, 0, viewWidth, viewHeight);
@@ -429,7 +429,7 @@ public class NativeAdViewContainer extends ReactViewGroup implements AppEventLis
         ctaView.setPadding(0, 15, 0, 10);
 
         NativeAd.Image icon = _nativeAd.getIcon();
-        if (icon != null) {
+        if (icon != null && icon.getUri() != null) {
             ImageView iconView = new ImageView(context);
             int iconLeft = midWidth;
             int iconTop = 20;
@@ -445,17 +445,20 @@ public class NativeAdViewContainer extends ReactViewGroup implements AppEventLis
                 .into(iconView);
         }
         if (_nativeAd.getImages().size() != 0) {
-            ImageView imageView = new ImageView(context);
             NativeAd.Image image = _nativeAd.getImages().get(0);
-            imageView.layout(0, 20, midWidth - 30, viewHeight - 20);
+            if (image != null && image.getUri() != null) {
+                ImageView imageView = new ImageView(context);
+                imageView.layout(0, 20, midWidth - 30, viewHeight - 20);
 
-            nativeAdView.addView(imageView);
-            nativeAdView.setImageView(imageView);
+                nativeAdView.addView(imageView);
+                nativeAdView.setImageView(imageView);
 
-            Glide.with(context)
-                .load(image.getUri())
-                .into(imageView);
+                Glide.with(context)
+                    .load(image.getUri())
+                    .into(imageView);
+            }
         }
+
         TextView textView = new TextView(context);
         textView.setText("Ad");
         textView.setTextSize(11);
@@ -472,7 +475,7 @@ public class NativeAdViewContainer extends ReactViewGroup implements AppEventLis
         int textColor = this.adTheme.equals("light") ? 0xFF000000 : 0xFFFFFFFF;
 
         NativeAd.Image icon = _nativeAd.getIcon();
-        if (icon != null) {
+        if (icon != null && icon.getUri() != null) {
             ImageView iconView = new ImageView(context);
             int iconLeft = left+20;
             int iconTop = 20;
@@ -523,17 +526,19 @@ public class NativeAdViewContainer extends ReactViewGroup implements AppEventLis
         nativeAdView.setBodyView(bodyView);
 
         if (_nativeAd.getImages().size() != 0) {
-            ImageView imageView = new ImageView(context);
             NativeAd.Image image = _nativeAd.getImages().get(0);
-            imageView.layout(0, 360, viewWidth, top + viewHeight - 210);
-            imageView.setBackgroundColor(0xFFFFFFFF);
+            if (image != null && image.getUri() != null) {
+                ImageView imageView = new ImageView(context);
+                imageView.layout(0, 360, viewWidth, top + viewHeight - 210);
+                imageView.setBackgroundColor(0xFFFFFFFF);
 
-            nativeAdView.addView(imageView);
-            nativeAdView.setImageView(imageView);
+                nativeAdView.addView(imageView);
+                nativeAdView.setImageView(imageView);
 
-            Glide.with(context)
-                .load(image.getUri())
-                .into(imageView);
+                Glide.with(context)
+                    .load(image.getUri())
+                    .into(imageView);
+            }
         }
 
         TextView ctaView = new TextView(context);
@@ -755,15 +760,19 @@ public class NativeAdViewContainer extends ReactViewGroup implements AppEventLis
             }
         }
 
-        if (nativeAd.getImages().size() == 0) {
+        if (nativeAd.getImages() == null || nativeAd.getImages().size() == 0) {
             ad.putArray("images", null);
         } else {
             WritableArray images = Arguments.createArray();
             for (NativeAd.Image image : nativeAd.getImages()) {
-                WritableMap imageMap = Arguments.createMap();
-                imageMap.putString("uri", image.getUri().toString());
-                imageMap.putDouble("scale", image.getScale());
-                images.pushMap(imageMap);
+                try {
+                    WritableMap imageMap = Arguments.createMap();
+                    imageMap.putString("uri", image.getUri().toString());
+                    imageMap.putDouble("scale", image.getScale());
+                    images.pushMap(imageMap);
+                } catch (Exception e) {
+                    Log.e("NativeAd", e.toString());
+                }
             }
             ad.putArray("images", images);
         }
