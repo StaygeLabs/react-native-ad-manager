@@ -363,7 +363,7 @@ public class NativeAdViewContainer extends ReactViewGroup implements AppEventLis
             nativeAdView.measure(viewWidth, viewHeight);
             nativeAdView.layout(left, top, left + viewWidth, top + viewHeight);
 
-            if (this.adUnitID.indexOf("community_feed") < 0) {
+            if (this.adUnitID.indexOf("Feed") < 0) {
                 bannerView(viewWidth, viewHeight);
 
                 frame.setBackgroundColor(0xFFF8F9FA);
