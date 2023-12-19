@@ -440,9 +440,13 @@ public class NativeAdViewContainer extends ReactViewGroup implements AppEventLis
             nativeAdView.addView(iconView);
             nativeAdView.setIconView(iconView);
 
-            Glide.with(context)
-                .load(icon.getUri())
-                .into(iconView);
+            try {
+                Glide.with(context)
+                    .load(icon.getUri())
+                    .into(iconView);
+            } catch (Exception e) {
+                Log.e("NativeAd", e.toString());
+            }
         }
         if (_nativeAd.getImages().size() != 0) {
             NativeAd.Image image = _nativeAd.getImages().get(0);
@@ -453,9 +457,13 @@ public class NativeAdViewContainer extends ReactViewGroup implements AppEventLis
                 nativeAdView.addView(imageView);
                 nativeAdView.setImageView(imageView);
 
-                Glide.with(context)
-                    .load(image.getUri())
-                    .into(imageView);
+                try {
+                    Glide.with(context)
+                        .load(image.getUri())
+                        .into(imageView);
+                } catch (Exception e) {
+                    Log.e("NativeAd", e.toString());
+                }
             }
         }
 
@@ -485,9 +493,13 @@ public class NativeAdViewContainer extends ReactViewGroup implements AppEventLis
             nativeAdView.addView(iconView);
             nativeAdView.setIconView(iconView);
 
-            Glide.with(context)
-                .load(icon.getUri())
-                .into(iconView);
+            try {
+                Glide.with(context)
+                    .load(icon.getUri())
+                    .into(iconView);
+            } catch (Exception e) {
+                Log.e("NativeAd", e.toString());
+            }
         }
 
         TextView advertiserView = new TextView(context);
@@ -535,9 +547,13 @@ public class NativeAdViewContainer extends ReactViewGroup implements AppEventLis
                 nativeAdView.addView(imageView);
                 nativeAdView.setImageView(imageView);
 
-                Glide.with(context)
-                    .load(image.getUri())
-                    .into(imageView);
+                try {
+                    Glide.with(context)
+                        .load(image.getUri())
+                        .into(imageView);
+                } catch (Exception e) {
+                    Log.e("NativeAd", e.toString());
+                }
             }
         }
 
