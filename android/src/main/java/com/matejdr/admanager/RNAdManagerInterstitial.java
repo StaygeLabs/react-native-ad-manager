@@ -145,7 +145,7 @@ public class RNAdManagerInterstitial extends ReactContextBaseJavaModule {
     private AdManagerAdRequest buildAdRequest() {
         AdManagerAdRequest.Builder adRequestBuilder = new AdManagerAdRequest.Builder();
 
-        if (testDevices != null) {
+        if (testDevices != null && testDevices.length > 0) {
             List<String> testDevicesList = new ArrayList<>();
 
             for (int i = 0; i < testDevices.length; i++) {
