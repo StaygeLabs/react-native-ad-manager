@@ -210,7 +210,7 @@ class BannerAdView extends ReactViewGroup implements AppEventListener, Lifecycle
         AdManagerAdRequest.Builder adRequestBuilder = new AdManagerAdRequest.Builder();
 
         List<String> testDevicesList = new ArrayList<>();
-        if (testDevices != null) {
+        if (testDevices != null && testDevices.length > 0) {
             for (int i = 0; i < testDevices.length; i++) {
                 String testDevice = testDevices[i];
                 if (testDevice == "SIMULATOR") {

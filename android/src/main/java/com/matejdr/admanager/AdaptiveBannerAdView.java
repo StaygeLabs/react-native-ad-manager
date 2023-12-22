@@ -180,7 +180,7 @@ class AdaptiveBannerAdView extends ReactViewGroup implements AppEventListener, L
         AdManagerAdRequest.Builder adRequestBuilder = new AdManagerAdRequest.Builder();
 
         List<String> testDevicesList = new ArrayList<>();
-        if (testDevices != null) {
+        if (testDevices != null && testDevices.length > 0) {
             for (String device : testDevices) {
                 String testDevice = device;
                 if (testDevice == "SIMULATOR") {
