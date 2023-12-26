@@ -529,6 +529,7 @@ public class NativeAdViewContainer extends ReactViewGroup implements AppEventLis
 
         TextView bodyView = new TextView(context);
         bodyView.setText(_nativeAd.getBody());
+        bodyView.setMaxLines(2);
         bodyView.setTextSize(14);
         bodyView.setTextColor(textColor);
         bodyView.setGravity(Gravity.LEFT);
